@@ -19,4 +19,35 @@
 // .catch(() => console.log("failed!"))
 // .finally(() => console.log("clean up!"));
 
-let p = Promise.resolve("execution is done");
+// let p = Promise.reject("failed");
+
+// p.then((val) => { 
+//     console.log(val); 
+//     return "done2" }
+// ).then((val) => {
+//     console.log(val);
+// }).catch((val) => {console.log(val);
+// });
+
+
+const makeApiCall = (time) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("This API executed in: " + time);
+        }, time);
+    })
+}
+
+// makeApiCall(2000).then((val) => {console.log(val);
+// })
+
+let multiApiCall = [makeApiCall(1000), makeApiCall(4000), makeApiCall(6000)];
+
+Promise.all(multiApiCall).then((values) => {
+    console.log(values);
+})
+
+Promise.race(multiApiCall).then((value) => {
+    console.log(value);
+})
+
