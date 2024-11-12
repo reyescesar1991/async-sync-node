@@ -31,7 +31,7 @@
 
 
 const makeApiCall = (time) => {
-    return new Promise((resolve, reject) => {
+    return () => new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve("This API executed in: " + time);
         }, time);
@@ -41,13 +41,19 @@ const makeApiCall = (time) => {
 // makeApiCall(2000).then((val) => {console.log(val);
 // })
 
-let multiApiCall = [makeApiCall(1000), makeApiCall(4000), makeApiCall(6000)];
+const apiRequest = [makeApiCall(1000), makeApiCall(4000), makeApiCall(6000)];
 
-Promise.all(multiApiCall).then((values) => {
-    console.log(values);
-})
+// Promise.all(multiApiCall).then((values) => {
+//     console.log(values);
+// })
 
-Promise.race(multiApiCall).then((value) => {
-    console.log(value);
-})
+// Promise.race(multiApiCall).then((value) => {
+//     console.log(value);
+// })
+
+(async function () {
+    for(let request of apiRequest){
+        console.log(await request());  
+    }
+})();
 
